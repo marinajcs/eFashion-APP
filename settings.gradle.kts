@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "P3-DSS"
+rootProject.name = "Practica3"
 include(":app")
