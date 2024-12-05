@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
         buttonAddProduct = findViewById(R.id.buttonAddProduct)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        productAdapter = ProductAdapter(emptyList())
+        productAdapter = ProductAdapter(emptyList(), apiService)
         cartAdapter = CartAdapter(emptyList())
 
         // traer los datos del API
@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
                     Log.d("API_RESPONSE", "Productos: $productList")
                     productList?.let {
                         // Initialize the adapter with the product list
-                        productAdapter = ProductAdapter(it)
+                        productAdapter = ProductAdapter(it, apiService)
                         recyclerView.adapter = productAdapter
                     }
                 } else {

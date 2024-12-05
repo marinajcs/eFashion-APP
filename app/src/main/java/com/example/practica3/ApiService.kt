@@ -1,6 +1,8 @@
 package com.example.practica3
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -12,6 +14,12 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     @GET("api/products")
     fun getAllProducts(): Call<List<Product>>
+
+    // Añadir un producto al carrito
+    @POST("api/cart/add")
+    fun addCartProduct(
+        @Query("productId") productId: Long
+    ): Call<Void>
 
     // Añadir un producto (POST request example)
     @POST("api/products/add")
