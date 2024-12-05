@@ -4,8 +4,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-class ProductAdapter(private val productList: List<Product>) :
+class ProductAdapter(private var productList: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
+    fun updateData(newProductList: List<Product>) {
+        this.productList = newProductList
+        notifyDataSetChanged()
+    }
 
     // Clase ViewHolder para contener las referencias a cada una de las vistas de los items
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

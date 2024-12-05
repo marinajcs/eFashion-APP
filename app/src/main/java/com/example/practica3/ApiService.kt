@@ -1,4 +1,5 @@
 package com.example.practica3
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -9,18 +10,18 @@ import retrofit2.http.Query
 interface ApiService {
     // Get all products
     @Headers("Content-Type: application/json")
-    @GET("/products")
+    @GET("api/products")
     fun getAllProducts(): Call<List<Product>>
 
     // Añadir un producto (POST request example)
-    @POST("/products/add")
+    @POST("api/products/add")
     fun addProduct(
         @Query("name") name: String,
         @Query("price") price: Double
     ): Call<Void>
 
     // Editar un product por su ID
-    @POST("/products/edit/{id}")
+    @POST("api/products/edit/{id}")
     fun editProduct(
         @Path("id") id: Long,
         @Query("name") name: String,
@@ -28,8 +29,12 @@ interface ApiService {
     ): Call<Void>
 
     // Eliminar un producto por su ID
-    @POST("/products/delete/{id}")
+    @POST("api/products/delete/{id}")
     fun deleteProduct(
         @Path("id") id: Long
     ): Call<Void>
+
+    @Headers("Content-Type: application/json")
+    @GET("api/cart")
+    fun getCartProducts(): Call<ResponseBody>
 }

@@ -13,18 +13,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.practica3.ui.theme.Practica3Theme
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
+import com.example.tuapp.utils.transformApiResponse
+import okhttp3.ResponseBody
 
 class MainActivity : ComponentActivity() {
     private lateinit var productAdapter: ProductAdapter
+    private lateinit var cartAdapter: CartAdapter
     private lateinit var recyclerView: RecyclerView
     private val apiService = ApiClient.retrofit.create(ApiService::class.java)
+    private lateinit var buttonCart: Button
+    private lateinit var buttonAddProduct: Button
+    private var isCartView = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +38,26 @@ class MainActivity : ComponentActivity() {
 
         // configurar RecyclerView
         recyclerView = findViewById(R.id.recyclerViewProducts)
+        buttonCart = findViewById(R.id.buttonCart)
+        buttonAddProduct = findViewById(R.id.buttonAddProduct)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
+        productAdapter = ProductAdapter(emptyList())
+        cartAdapter = CartAdapter(emptyList())
 
         // traer los datos del API
         fetchProducts()
+
+        buttonCart.setOnClickListener {
+            isCartView = !isCartView
+            if (isCartView) {
+                fetchCartProducts()
+                buttonCart.text = "Products"
+            } else {
+                fetchProducts()
+                buttonCart.text = "Cart"
+            }
+        }
     }
 
     private fun fetchProducts() {
@@ -63,4 +85,29 @@ class MainActivity : ComponentActivity() {
             }
         })
     }
+
+    private fun fetchCartProducts() {
+        apiService.getCartProducts().enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    val rawJson = response.body()?.string()
+                    rawJson?.let {
+                        // Transforma el JSON en una lista de CartProduct
+                        val productList = transformApiResponse(it)
+
+                        Log.d("API_RESPONSE", "Productos: $productList")
+                        cartAdapter = CartAdapter(productList)
+                        recyclerView.adapter = cartAdapter
+                    }
+                } else {
+                    Log.e("API_ERROR", "Error code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("API_ERROR", "Failure: ${t.message}")
+            }
+        })
+    }
+
 }
