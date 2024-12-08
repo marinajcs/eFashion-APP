@@ -21,6 +21,12 @@ interface ApiService {
         @Query("productId") productId: Long
     ): Call<Void>
 
+    // Eliminar un producto del carrito
+    @POST("api/cart/delete")
+    fun removeCartProduct(
+        @Query("productId") productId: Long
+    ): Call<Void>
+
     // Añadir un producto (POST request example)
     @POST("api/products/add")
     fun addProduct(

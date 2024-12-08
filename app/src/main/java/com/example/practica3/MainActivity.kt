@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         productAdapter = ProductAdapter(emptyList(), apiService)
-        cartAdapter = CartAdapter(emptyList())
+        cartAdapter = CartAdapter(emptyList(), apiService)
 
         // traer los datos del API
         fetchProducts()
@@ -101,7 +101,7 @@ class MainActivity : ComponentActivity() {
                         val productList = transformApiResponse(it)
 
                         Log.d("API_RESPONSE", "Productos: $productList")
-                        cartAdapter = CartAdapter(productList)
+                        cartAdapter = CartAdapter(productList, apiService)
                         recyclerView.adapter = cartAdapter
                     }
                 } else {

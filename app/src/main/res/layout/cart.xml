@@ -42,4 +42,15 @@
         android:textSize="14sp"
         android:textColor="#808080"
         android:layout_marginTop="4dp" />
+
+    <!-- Add to Cart -->
+    <Button
+        android:id="@+id/buttonRemoveCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_gravity="center_vertical" />
 </LinearLayout>
