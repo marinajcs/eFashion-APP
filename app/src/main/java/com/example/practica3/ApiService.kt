@@ -27,7 +27,7 @@ interface ApiService {
         @Query("productId") productId: Long
     ): Call<Void>
 
-    // Añadir un producto (POST request example)
+    // Añadir un producto al catálogo
     @POST("api/products/add")
     fun addProduct(
         @Query("name") name: String,

@@ -29,7 +29,41 @@
         android:layout_above="@id/layoutButtons"
         android:scrollbars="vertical" />
 
-    <!-- Button Container for better layout control -->
+    <!-- Add Product Layout (Initially Hidden) -->
+    <LinearLayout
+        android:id="@+id/layoutAddProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerTitle"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/editTextProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Name" />
+
+        <EditText
+            android:id="@+id/editTextProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Price"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/buttonSubmitProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Product"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <!-- Button Container -->
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="match_parent"
@@ -63,6 +97,17 @@
             android:textSize="32sp"
             android:gravity="center" />
 
+        <Button
+            android:id="@+id/buttonBack"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Back"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"/>
     </LinearLayout>
 
 </RelativeLayout>
+
