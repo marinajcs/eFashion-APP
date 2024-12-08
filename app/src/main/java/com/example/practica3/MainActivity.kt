@@ -14,6 +14,7 @@ import com.example.practica3.ui.theme.Practica3Theme
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
     private val apiService = ApiClient.retrofit.create(ApiService::class.java)
     private lateinit var buttonCart: Button
     private lateinit var buttonAddProduct: Button
+    private lateinit var headerTitle: TextView
     private var isCartView = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,7 @@ class MainActivity : ComponentActivity() {
 
         // configurar RecyclerView
         recyclerView = findViewById(R.id.recyclerViewProducts)
+        headerTitle = findViewById(R.id.headerTitle)
         buttonCart = findViewById(R.id.buttonCart)
         buttonAddProduct = findViewById(R.id.buttonAddProduct)
 
@@ -52,10 +55,12 @@ class MainActivity : ComponentActivity() {
             isCartView = !isCartView
             if (isCartView) {
                 fetchCartProducts()
-                buttonCart.text = "Products"
+                buttonCart.text = "Catalog"
+                headerTitle.text = "Cart"
             } else {
                 fetchProducts()
                 buttonCart.text = "Cart"
+                headerTitle.text = "Catalog"
             }
         }
     }
