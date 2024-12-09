@@ -34,18 +34,18 @@ interface ApiService {
         @Query("price") price: Double
     ): Call<Void>
 
-    // Editar un product por su ID
-    @POST("api/products/edit/{id}")
+    // Editar un product como admin
+    @POST("api/products/edit")
     fun editProduct(
-        @Path("id") id: Long,
+        @Query("productId") productId: Long,
         @Query("name") name: String,
         @Query("price") price: Double
     ): Call<Void>
 
-    // Eliminar un producto por su ID
-    @POST("api/products/delete/{id}")
+    // Eliminar un producto como admin
+    @POST("api/products/delete")
     fun deleteProduct(
-        @Path("id") id: Long
+        @Query("productId") productId: Long
     ): Call<Void>
 
     @Headers("Content-Type: application/json")

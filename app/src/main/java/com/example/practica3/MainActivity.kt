@@ -30,9 +30,12 @@ import okhttp3.ResponseBody
 class MainActivity : ComponentActivity() {
     private lateinit var productAdapter: ProductAdapter
     private lateinit var cartAdapter: CartAdapter
+    private lateinit var adminAdapter: AdminAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutAddProduct: LinearLayout
     private lateinit var buttonCart: Button
+    private lateinit var buttonCatalog: Button
+    private lateinit var buttonAdmin: Button
     private lateinit var buttonAddProduct: Button
     private lateinit var buttonSubmitProduct: Button
     private lateinit var buttonBackCatalog: Button
@@ -40,13 +43,14 @@ class MainActivity : ComponentActivity() {
     private lateinit var editTextProductPrice: EditText
     private lateinit var headerTitle: TextView
     private val apiService = ApiClient.retrofit.create(ApiService::class.java)
-    private var isCartView = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // Inicializar vistas
+        buttonAdmin = findViewById(R.id.buttonAdmin)
+        buttonCatalog = findViewById(R.id.buttonCatalog)
         recyclerView = findViewById(R.id.recyclerViewProducts)
         layoutAddProduct = findViewById(R.id.layoutAddProduct)
         headerTitle = findViewById(R.id.headerTitle)
@@ -60,30 +64,32 @@ class MainActivity : ComponentActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         productAdapter = ProductAdapter(emptyList(), apiService)
         cartAdapter = CartAdapter(emptyList(), apiService)
+        adminAdapter = AdminAdapter(emptyList(), apiService)
 
         // Inicializar con la vista del catálogo
         fetchProducts()
 
         // Botón para alternar entre el carrito y el catálogo
         buttonCart.setOnClickListener {
-            isCartView = !isCartView
-            if (isCartView) {
-                fetchCartProducts()
-                buttonCart.text = "Catalog"
-                headerTitle.text = "Cart"
-            } else {
-                fetchProducts()
-                buttonCart.text = "Cart"
-                headerTitle.text = "Catalog"
-            }
+            fetchCartProducts()
         }
 
-        // Botón para mostrar la vista de agregar productos
+        buttonCatalog.setOnClickListener {
+            fetchProducts()
+        }
+
+        buttonAdmin.setOnClickListener {
+            fetchAdmin()
+        }
+
         buttonAddProduct.setOnClickListener {
             showAddProductView()
         }
 
-        // Botón para enviar el producto y volver al catálogo
+        buttonBackCatalog.setOnClickListener {
+            showCatalogView()
+        }
+
         buttonSubmitProduct.setOnClickListener {
             val productName = editTextProductName.text.toString()
             val productPrice = editTextProductPrice.text.toString().toDoubleOrNull()
@@ -94,6 +100,7 @@ class MainActivity : ComponentActivity() {
                 Log.e("AddProduct", "Invalid input")
             }
         }
+
     }
 
     private fun showAddProductView() {
@@ -103,6 +110,8 @@ class MainActivity : ComponentActivity() {
         buttonBackCatalog.visibility = View.VISIBLE
         buttonCart.visibility = View.GONE
         buttonAddProduct.visibility = View.GONE
+        buttonCatalog.visibility = View.GONE
+        buttonAdmin.visibility = View.GONE
     }
 
     private fun showCatalogView() {
@@ -112,6 +121,8 @@ class MainActivity : ComponentActivity() {
         buttonCart.visibility = View.VISIBLE
         buttonAddProduct.visibility = View.VISIBLE
         buttonBackCatalog.visibility = View.GONE
+        buttonCatalog.visibility = View.VISIBLE
+        buttonAdmin.visibility = View.VISIBLE
         fetchProducts()
     }
 
@@ -156,6 +167,26 @@ class MainActivity : ComponentActivity() {
         })
     }
 
+    private fun fetchAdmin() {
+        apiService.getAllProducts().enqueue(object : Callback<List<Product>> {
+            override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+                if (response.isSuccessful) {
+                    val productList = response.body()
+                    productList?.let {
+                        adminAdapter = AdminAdapter(it, apiService)
+                        recyclerView.adapter = adminAdapter
+                    }
+                } else {
+                    Log.e("API_ERROR", "Error code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                Log.e("API_ERROR", "Failure: ${t.message}")
+            }
+        })
+    }
+
     private fun addProduct(name: String, price: Double) {
         apiService.addProduct(name, price).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -172,4 +203,5 @@ class MainActivity : ComponentActivity() {
             }
         })
     }
+
 }
