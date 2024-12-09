@@ -72,14 +72,17 @@ class MainActivity : ComponentActivity() {
         // Botón para alternar entre el carrito y el catálogo
         buttonCart.setOnClickListener {
             fetchCartProducts()
+            headerTitle.text = "Cart"
         }
 
         buttonCatalog.setOnClickListener {
             fetchProducts()
+            headerTitle.text = "Catalog"
         }
 
         buttonAdmin.setOnClickListener {
             fetchAdmin()
+            headerTitle.text = "Admin"
         }
 
         buttonAddProduct.setOnClickListener {

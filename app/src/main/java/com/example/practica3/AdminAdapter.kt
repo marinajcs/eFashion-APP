@@ -53,12 +53,12 @@ class AdminAdapter(
         return productList.size
     }
 
-    private fun editProduct(productId : Long, name: String, price: Double) {
+    private fun editProduct(productId: Long, name: String, price: Double) {
         apiService.editProduct(productId, name, price).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("EditProduct", "Product edited successfully")
-                    //showCatalogView() // Volver al catálogo
+                    reloadProducts()
                 } else {
                     Log.e("EditProduct", "Error editing product: ${response.code()}")
                 }
@@ -75,7 +75,7 @@ class AdminAdapter(
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("DeleteProduct", "Product deleted successfully")
-                    //showCatalogView() // Volver al catálogo
+                    reloadProducts()
                 } else {
                     Log.e("DeleteProduct", "Error deleting product: ${response.code()}")
                 }
@@ -83,6 +83,25 @@ class AdminAdapter(
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.e("DeleteProduct", "Error: ${t.message}")
+            }
+        })
+    }
+
+    private fun reloadProducts() {
+        apiService.getAllProducts().enqueue(object : Callback<List<Product>> {
+            override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+                if (response.isSuccessful) {
+                    val productList = response.body()
+                    if (productList != null) {
+                        updateData(productList)
+                    }
+                } else {
+                    Log.e("API_ERROR", "Error code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                Log.e("API_ERROR", "Failure: ${t.message}")
             }
         })
     }
