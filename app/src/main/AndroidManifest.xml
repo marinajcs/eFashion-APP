@@ -5,6 +5,8 @@
     package="com.example.practica3">
     <uses-permission android:name="android.permission.INTERNET"
         tools:ignore="WrongManifestParent" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -31,6 +33,4 @@
 
         </activity>
     </application>
-
-
 </manifest>

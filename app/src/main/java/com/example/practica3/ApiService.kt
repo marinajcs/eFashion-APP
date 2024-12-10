@@ -10,10 +10,13 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    // Get all products
     @Headers("Content-Type: application/json")
     @GET("api/products")
     fun getAllProducts(): Call<List<Product>>
+
+    @Headers("Content-Type: application/json")
+    @GET("api/cart")
+    fun getCartProducts(): Call<ResponseBody>
 
     // Añadir un producto al carrito
     @POST("api/cart/add")
@@ -21,28 +24,40 @@ interface ApiService {
         @Query("productId") productId: Long
     ): Call<Void>
 
-    // Añadir un producto (POST request example)
+    // Eliminar un producto del carrito
+    @POST("api/cart/delete")
+    fun removeCartProduct(
+        @Query("productId") productId: Long
+    ): Call<Void>
+
+    // Añadir un producto al catálogo
     @POST("api/products/add")
     fun addProduct(
         @Query("name") name: String,
         @Query("price") price: Double
     ): Call<Void>
 
-    // Editar un product por su ID
-    @POST("api/products/edit/{id}")
+    // Editar un product como admin
+    @POST("api/products/edit")
     fun editProduct(
-        @Path("id") id: Long,
+        @Query("productId") productId: Long,
         @Query("name") name: String,
         @Query("price") price: Double
     ): Call<Void>
 
-    // Eliminar un producto por su ID
-    @POST("api/products/delete/{id}")
+    // Eliminar un producto como admin
+    @POST("api/products/delete")
     fun deleteProduct(
-        @Path("id") id: Long
+        @Query("productId") productId: Long
     ): Call<Void>
 
+    // Consultar el precio total
     @Headers("Content-Type: application/json")
-    @GET("api/cart")
-    fun getCartProducts(): Call<ResponseBody>
+    @GET("api/cart/total")
+    fun getTotalPrice(): Call<Double>
+
+    // Consultar la factura
+    @Headers("Content-Type: application/json")
+    @GET("api/cart/bill")
+    fun billExport(): Call<ResponseBody>
 }

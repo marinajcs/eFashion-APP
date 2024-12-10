@@ -27,8 +27,7 @@
             android:textColor="@color/black"
             android:ellipsize="end"
             android:singleLine="true"
-            android:maxLines="1"
-            android:text="Product Name" />
+            android:maxLines="1" />
 
         <!-- Product price -->
         <TextView
@@ -37,18 +36,27 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#808080"
-            android:layout_marginTop="4dp"
-            android:text="Price" />
+            android:layout_marginTop="4dp" />
     </LinearLayout>
 
-    <!-- Add to Cart -->
     <Button
-        android:id="@+id/buttonAddCart"
+        android:id="@+id/buttonDeleteProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add to Cart"
+        android:text="Delete"
         android:backgroundTint="@color/primary"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:layout_gravity="center_vertical" />
+
+    <Button
+        android:id="@+id/buttonEditProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_gravity="center_vertical" />
+
 </LinearLayout>

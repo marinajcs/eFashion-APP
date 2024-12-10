@@ -1,32 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
 
-    <!-- RecyclerView to display a list of products -->
+    <!-- Header -->
+    <TextView
+        android:id="@+id/headerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/primary"
+        android:text="Catalog"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp" />
 
-    <!-- Button to add a new product -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProducts"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:scrollbars="vertical" />
+        android:layout_below="@id/headerTitle"
+        android:layout_above="@id/layoutButtons">
 
-    <Button
-        android:id="@+id/buttonAddProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Product"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/buttonCart"
-        android:layout_width="wrap_content"
+            <!-- Lista de productos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+
+            <!-- Resumen de compra -->
+            <LinearLayout
+                android:id="@+id/layoutCartSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/textViewTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Price: $0.00"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/buttonCheckout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Checkout"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/primary"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Añadir productos -->
+    <LinearLayout
+        android:id="@+id/layoutAddProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerTitle"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/editTextProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Name" />
+
+        <EditText
+            android:id="@+id/editTextProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Price"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/buttonSubmitProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Product"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <!-- Editar productos -->
+    <LinearLayout
+        android:id="@+id/layoutEditProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerTitle"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/editTextEditName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Name" />
+
+        <EditText
+            android:id="@+id/editTextEditPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Price"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/buttonSaveEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Product"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <!-- Menú inferior -->
+    <LinearLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="19dp"
-        android:text="Cart" />
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="16dp">
+
+        <!-- Botones comunes -->
+        <Button
+            android:id="@+id/buttonCatalog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Catalog"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/buttonCart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cart"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/buttonAdmin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Admin"
+            android:layout_marginEnd="4dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/buttonAddProduct"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="+"
+            android:textColor="@color/white"
+            android:background="@drawable/round_button_background"
+            android:textSize="26sp"
+            android:gravity="center" />
+
+        <!-- Botones retroceso -->
+        <Button
+            android:id="@+id/buttonBack"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Back"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/buttonCancelEdit"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
 </RelativeLayout>
+
