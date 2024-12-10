@@ -270,6 +270,7 @@ class MainActivity : ComponentActivity() {
         layoutEditProduct.visibility = View.GONE
         buttonSaveEdit.visibility = View.GONE
         buttonCancelEdit.visibility = View.GONE
+        layoutCartSummary.visibility = View.GONE
         fetchAdmin()
     }
 
@@ -399,6 +400,7 @@ class MainActivity : ComponentActivity() {
                             showEditProductView(product)
                         }
                         recyclerView.adapter = adminAdapter
+                        layoutCartSummary.visibility = View.GONE
                     }
                 } else {
                     Log.e("API_ERROR", "Error code: ${response.code()}")
