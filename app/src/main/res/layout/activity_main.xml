@@ -20,14 +20,53 @@
         android:gravity="center"
         android:padding="16dp" />
 
-    <!-- Lista de productos -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProducts"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/headerTitle"
-        android:layout_above="@id/layoutButtons"
-        android:scrollbars="vertical" />
+        android:layout_above="@id/layoutButtons">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Lista de productos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+
+            <!-- Resumen de compra -->
+            <LinearLayout
+                android:id="@+id/layoutCartSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    android:id="@+id/textViewTotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Price: $0.00"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/buttonCheckout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Checkout"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/primary"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Añadir productos -->
     <LinearLayout

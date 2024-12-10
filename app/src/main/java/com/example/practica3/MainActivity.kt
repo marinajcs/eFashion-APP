@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.practica3.ui.theme.Practica3Theme
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -26,6 +27,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tuapp.utils.transformApiResponse
 import okhttp3.ResponseBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 class MainActivity : ComponentActivity() {
     // Adaptadores
@@ -51,6 +57,11 @@ class MainActivity : ComponentActivity() {
     private lateinit var editTextEditPrice: EditText
     private lateinit var buttonSaveEdit: Button
     private lateinit var buttonCancelEdit: Button
+
+    // Confirmación de compra
+    private lateinit var layoutCartSummary: LinearLayout
+    private lateinit var textViewTotalPrice: TextView
+    private lateinit var buttonCheckout: Button
 
     // Menú inferior
     private lateinit var buttonCart: Button
@@ -86,6 +97,11 @@ class MainActivity : ComponentActivity() {
         editTextEditPrice = findViewById(R.id.editTextEditPrice)
         buttonSaveEdit = findViewById(R.id.buttonSaveEdit)
         buttonCancelEdit = findViewById(R.id.buttonCancelEdit)
+
+        // Confirmación de compra
+        layoutCartSummary = findViewById(R.id.layoutCartSummary)
+        textViewTotalPrice = findViewById(R.id.textViewTotalPrice)
+        buttonCheckout = findViewById(R.id.buttonCheckout)
 
         // Adaptadores
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -134,6 +150,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // Editar productos
         buttonSaveEdit.setOnClickListener {
             val newName = editTextEditName.text.toString()
             val newPrice = editTextEditPrice.text.toString().toDoubleOrNull()
@@ -148,6 +165,21 @@ class MainActivity : ComponentActivity() {
         buttonCancelEdit.setOnClickListener {
             showAdminView()
         }
+
+        // Realización de compra
+        buttonCheckout.setOnClickListener {
+            val confirmationDialog = android.app.AlertDialog.Builder(this)
+                .setTitle("Confirm Payment")
+                .setMessage("Do you want to proceed with the payment?")
+                .setPositiveButton("Yes") { _, _ ->
+                    billExport()
+                }
+                .setNegativeButton("No", null)
+                .create()
+
+            confirmationDialog.show()
+        }
+
     }
 
     // Funciones del añadido de productos
@@ -225,6 +257,7 @@ class MainActivity : ComponentActivity() {
         buttonAddProduct.visibility = View.GONE
         buttonCatalog.visibility = View.GONE
         buttonAdmin.visibility = View.GONE
+        layoutCartSummary.visibility = View.GONE
     }
 
     private fun showAdminView() {
@@ -240,7 +273,79 @@ class MainActivity : ComponentActivity() {
         fetchAdmin()
     }
 
-    // Llamadas a la API
+    // Funciones de la realización de la compra
+    private fun getTotalPrice() {
+        apiService.getTotalPrice().enqueue(object : Callback<Double> {
+            override fun onResponse(call: Call<Double>, response: Response<Double>) {
+                if (response.isSuccessful) {
+                    val totalPrice = response.body() ?: 0.0
+                    textViewTotalPrice.text = "Total Price: $${"%.2f".format(totalPrice)}"
+                    layoutCartSummary.visibility = View.VISIBLE
+                } else {
+                    Log.e("TotalPrice", "Error fetching total price: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Double>, t: Throwable) {
+                Log.e("TotalPrice", "Failure: ${t.message}")
+            }
+        })
+    }
+
+    private fun billExport() {
+        apiService.billExport().enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        try {
+                            val file = saveFileToStorage(responseBody)
+                            Log.d("Checkout", "Bill generated successfully: ${file.absolutePath}")
+                            val successDialog = android.app.AlertDialog.Builder(this@MainActivity)
+                                .setTitle("Invoice Downloaded")
+                                .setMessage("Your bill has been successfully downloaded in Downloads.")
+                                .setPositiveButton("OK", null)
+                                .create()
+                            successDialog.show()
+
+                            showCatalogView()
+                        } catch (e: IOException) {
+                            Log.e("Checkout", "Error saving invoice: ${e.message}")
+                        }
+                    } else {
+                        Log.e("Checkout", "Response body is null")
+                    }
+                } else {
+                    Log.e("Checkout", "Error generating invoice: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("Checkout", "Error: ${t.message}")
+            }
+        })
+    }
+
+    @Throws(IOException::class)
+    private fun saveFileToStorage(responseBody: ResponseBody): File {
+        val downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val file = File(downloadsDirectory, "bill.pdf")
+
+        val inputStream: InputStream = responseBody.byteStream()
+        val outputStream: OutputStream = FileOutputStream(file)
+        val buffer = ByteArray(4096)
+        var bytesRead: Int
+        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+            outputStream.write(buffer, 0, bytesRead)
+        }
+
+        outputStream.flush()
+        outputStream.close()
+        inputStream.close()
+        return file
+    }
+
+    // Consultas de listados
     private fun fetchProducts() {
         apiService.getAllProducts().enqueue(object : Callback<List<Product>> {
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
@@ -249,6 +354,7 @@ class MainActivity : ComponentActivity() {
                     productList?.let {
                         productAdapter = ProductAdapter(it, apiService)
                         recyclerView.adapter = productAdapter
+                        layoutCartSummary.visibility = View.GONE
                     }
                 } else {
                     Log.e("API_ERROR", "Error code: ${response.code()}")
@@ -270,6 +376,7 @@ class MainActivity : ComponentActivity() {
                         val productList = transformApiResponse(it)
                         cartAdapter = CartAdapter(productList, apiService)
                         recyclerView.adapter = cartAdapter
+                        getTotalPrice()
                     }
                 } else {
                     Log.e("API_ERROR", "Error code: ${response.code()}")

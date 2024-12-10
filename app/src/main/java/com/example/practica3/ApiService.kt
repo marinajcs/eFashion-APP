@@ -14,6 +14,10 @@ interface ApiService {
     @GET("api/products")
     fun getAllProducts(): Call<List<Product>>
 
+    @Headers("Content-Type: application/json")
+    @GET("api/cart")
+    fun getCartProducts(): Call<ResponseBody>
+
     // Añadir un producto al carrito
     @POST("api/cart/add")
     fun addCartProduct(
@@ -47,7 +51,13 @@ interface ApiService {
         @Query("productId") productId: Long
     ): Call<Void>
 
+    // Consultar el precio total
     @Headers("Content-Type: application/json")
-    @GET("api/cart")
-    fun getCartProducts(): Call<ResponseBody>
+    @GET("api/cart/total")
+    fun getTotalPrice(): Call<Double>
+
+    // Consultar la factura
+    @Headers("Content-Type: application/json")
+    @GET("api/cart/bill")
+    fun billExport(): Call<ResponseBody>
 }
