@@ -10,7 +10,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    // Get all products
     @Headers("Content-Type: application/json")
     @GET("api/products")
     fun getAllProducts(): Call<List<Product>>

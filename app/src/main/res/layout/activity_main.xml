@@ -6,7 +6,7 @@
     android:padding="16dp"
     android:background="@color/white">
 
-    <!-- Header title -->
+    <!-- Header -->
     <TextView
         android:id="@+id/headerTitle"
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         android:gravity="center"
         android:padding="16dp" />
 
-    <!-- Products list -->
+    <!-- Lista de productos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProducts"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:layout_above="@id/layoutButtons"
         android:scrollbars="vertical" />
 
-    <!-- Add Product Layout (Initially Hidden) -->
+    <!-- Añadir productos -->
     <LinearLayout
         android:id="@+id/layoutAddProduct"
         android:layout_width="match_parent"
@@ -63,7 +63,40 @@
 
     </LinearLayout>
 
-    <!-- Button Container -->
+    <!-- Editar productos -->
+    <LinearLayout
+        android:id="@+id/layoutEditProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerTitle"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/editTextEditName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Name" />
+
+        <EditText
+            android:id="@+id/editTextEditPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Product Price"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/buttonSaveEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Product"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <!-- Menú inferior -->
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="match_parent"
@@ -74,7 +107,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="16dp">
 
-        <!-- Cart Button -->
+        <!-- Botones comunes -->
         <Button
             android:id="@+id/buttonCatalog"
             android:layout_width="0dp"
@@ -105,7 +138,6 @@
             android:backgroundTint="@color/primary"
             android:textColor="@color/white" />
 
-        <!-- Add Product Button -->
         <Button
             android:id="@+id/buttonAddProduct"
             android:layout_width="48dp"
@@ -116,6 +148,7 @@
             android:textSize="26sp"
             android:gravity="center" />
 
+        <!-- Botones retroceso -->
         <Button
             android:id="@+id/buttonBack"
             android:visibility="gone"
@@ -126,6 +159,17 @@
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/primary"
             android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/buttonCancelEdit"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

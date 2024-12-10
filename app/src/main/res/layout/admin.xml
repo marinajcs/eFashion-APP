@@ -27,8 +27,7 @@
             android:textColor="@color/black"
             android:ellipsize="end"
             android:singleLine="true"
-            android:maxLines="1"
-            android:text="Product Name" />
+            android:maxLines="1" />
 
         <!-- Product price -->
         <TextView
@@ -37,8 +36,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#808080"
-            android:layout_marginTop="4dp"
-            android:text="Price" />
+            android:layout_marginTop="4dp" />
     </LinearLayout>
 
     <Button

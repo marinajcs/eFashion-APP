@@ -7,13 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AdminAdapter(
     private var productList: List<Product>,
-    private val apiService: ApiService // Inyecta el servicio API
+    private val apiService: ApiService,
+    private val onEditProduct: (Product) -> Unit
 
 ) : RecyclerView.Adapter<AdminAdapter.AdminViewHolder>() {
 
@@ -40,34 +42,16 @@ class AdminAdapter(
         holder.textViewPrice.text = "$${product.price}"
 
         holder.buttonEditProduct.setOnClickListener {
-            editProduct(product.id, product.name, product.price)
+            onEditProduct(product)
         }
 
         holder.buttonDeleteProduct.setOnClickListener {
             deleteProduct(product.id)
         }
-
     }
 
     override fun getItemCount(): Int {
         return productList.size
-    }
-
-    private fun editProduct(productId: Long, name: String, price: Double) {
-        apiService.editProduct(productId, name, price).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    Log.d("EditProduct", "Product edited successfully")
-                    reloadProducts()
-                } else {
-                    Log.e("EditProduct", "Error editing product: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.e("EditProduct", "Error: ${t.message}")
-            }
-        })
     }
 
     private fun deleteProduct(productId: Long) {

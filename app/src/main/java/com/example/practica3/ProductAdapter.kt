@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class ProductAdapter(
     private var productList: List<Product>,
-    private val apiService: ApiService // Inyecta el servicio API
+    private val apiService: ApiService
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     fun updateData(newProductList: List<Product>) {
@@ -36,7 +36,6 @@ class ProductAdapter(
         holder.textViewName.text = product.name
         holder.textViewPrice.text = "$${product.price}"
 
-        // Configurar el botón "Add to Cart"
         holder.buttonAddToCart.setOnClickListener {
             addToCart(product.id)
         }
