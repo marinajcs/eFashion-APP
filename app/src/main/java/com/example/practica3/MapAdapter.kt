@@ -14,9 +14,9 @@ class MapAdapter(private val context: Context) :
     RecyclerView.Adapter<MapAdapter.MapViewHolder>() {
 
     private val locations = listOf(
-        GeoPoint(36.7213, -4.4214), // Málaga
-        GeoPoint(37.1765, -3.5979), // Granada
-        GeoPoint(37.9922, -1.1307)  // Murcia
+        Pair(GeoPoint(36.7213, -4.4214), "FilmShop Málaga"),
+        Pair(GeoPoint(37.1765, -3.5979), "FilmShop Granada"),
+        Pair(GeoPoint(37.9922, -1.1307), "FilmShop Murcia")
     )
 
     init {
@@ -38,15 +38,15 @@ class MapAdapter(private val context: Context) :
     class MapViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val mapView: MapView = view.findViewById(R.id.mapView)
 
-        fun bind(locations: List<GeoPoint>) {
+        fun bind(locations: List<Pair<GeoPoint, String>>) {
             mapView.controller.setZoom(6.5)
             mapView.controller.setCenter(GeoPoint(37.3891, -5.9845)) // Centro aproximado
 
-            // Añadir marcadores
-            locations.forEach { location ->
+            locations.forEach { (location, title) ->
                 val marker = Marker(mapView)
                 marker.position = location
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                marker.title = title
                 mapView.overlays.add(marker)
             }
         }
