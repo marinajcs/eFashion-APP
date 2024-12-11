@@ -27,6 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tuapp.utils.transformApiResponse
 import okhttp3.ResponseBody
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -67,6 +70,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var buttonCart: Button
     private lateinit var buttonCatalog: Button
     private lateinit var buttonAdmin: Button
+    private lateinit var buttonMap: Button
 
     private val apiService = ApiClient.retrofit.create(ApiService::class.java)
 
@@ -78,6 +82,7 @@ class MainActivity : ComponentActivity() {
         buttonCatalog = findViewById(R.id.buttonCatalog)
         buttonCart = findViewById(R.id.buttonCart)
         buttonAdmin = findViewById(R.id.buttonAdmin)
+        buttonMap = findViewById(R.id.buttonMap)
 
         // Visualizar productos
         headerTitle = findViewById(R.id.headerTitle)
@@ -128,6 +133,11 @@ class MainActivity : ComponentActivity() {
         buttonAdmin.setOnClickListener {
             fetchAdmin()
             headerTitle.text = "Admin"
+        }
+
+        buttonMap.setOnClickListener {
+            recyclerView.adapter = MapAdapter(this)
+            headerTitle.text = "Map"
         }
 
         // Añadir productos
@@ -411,5 +421,13 @@ class MainActivity : ComponentActivity() {
                 Log.e("API_ERROR", "Failure: ${t.message}")
             }
         })
+    }
+
+    private fun addMarker(mapView: MapView, lat: Double, lon: Double, title: String) {
+        val marker = Marker(mapView)
+        marker.position = GeoPoint(lat, lon)
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        marker.title = title
+        mapView.overlays.add(marker)
     }
 }
