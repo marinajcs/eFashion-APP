@@ -73,6 +73,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var buttonCheckout: Button
 
     // Menú inferior
+    private lateinit var layoutButtons: LinearLayout
     private lateinit var buttonCart: Button
     private lateinit var buttonCatalog: Button
     private lateinit var buttonAdmin: Button
@@ -91,6 +92,7 @@ class MainActivity : ComponentActivity() {
         buttonLogin = findViewById(R.id.buttonLogin)
 
         // Menú inferior
+        layoutButtons =findViewById(R.id.layoutButtons)
         buttonCatalog = findViewById(R.id.buttonCatalog)
         buttonCart = findViewById(R.id.buttonCart)
         buttonAdmin = findViewById(R.id.buttonAdmin)
@@ -134,6 +136,8 @@ class MainActivity : ComponentActivity() {
         // Mostrar vista de login al inicio
         layoutLogin.visibility = View.VISIBLE
         recyclerView.visibility = View.GONE
+        headerTitle.text = "Login"
+        layoutButtons.visibility = View.GONE
 
         buttonLogin.setOnClickListener {
             val username = editTextUsername.text.toString()
@@ -253,10 +257,7 @@ class MainActivity : ComponentActivity() {
     private fun showCatalogView() {
         headerTitle.text = "Catalog"
         recyclerView.visibility = View.VISIBLE
-        buttonCart.visibility = View.VISIBLE
-        buttonAddProduct.visibility = View.VISIBLE
-        buttonCatalog.visibility = View.VISIBLE
-        buttonAdmin.visibility = View.VISIBLE
+        layoutButtons.visibility = View.VISIBLE
         layoutAddProduct.visibility = View.GONE
         buttonBackCatalog.visibility = View.GONE
         fetchProducts()
