@@ -37,6 +37,12 @@ import java.io.InputStream
 import java.io.OutputStream
 
 class MainActivity : ComponentActivity() {
+    // Login
+    private lateinit var layoutLogin: LinearLayout
+    private lateinit var editTextUsername: EditText
+    private lateinit var editTextPassword: EditText
+    private lateinit var buttonLogin: Button
+
     // Adaptadores
     private lateinit var productAdapter: ProductAdapter
     private lateinit var cartAdapter: CartAdapter
@@ -78,6 +84,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Login
+        layoutLogin = findViewById(R.id.layoutLogin)
+        editTextUsername = findViewById(R.id.editTextUsername)
+        editTextPassword = findViewById(R.id.editTextPassword)
+        buttonLogin = findViewById(R.id.buttonLogin)
+
         // Menú inferior
         buttonCatalog = findViewById(R.id.buttonCatalog)
         buttonCart = findViewById(R.id.buttonCart)
@@ -118,6 +130,21 @@ class MainActivity : ComponentActivity() {
 
         // Inicializar con la vista del catálogo
         fetchProducts()
+
+        // Mostrar vista de login al inicio
+        layoutLogin.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+
+        buttonLogin.setOnClickListener {
+            val username = editTextUsername.text.toString()
+            val password = editTextPassword.text.toString()
+
+            if (username.isNotBlank() && password.isNotBlank()) {
+                fetchLogin(username, password)
+            } else {
+                Log.e("Login", "Username or password cannot be empty")
+            }
+        }
 
         // Funcionalidad del menú inferior
         buttonCart.setOnClickListener {
@@ -219,6 +246,8 @@ class MainActivity : ComponentActivity() {
         buttonAddProduct.visibility = View.GONE
         buttonCatalog.visibility = View.GONE
         buttonAdmin.visibility = View.GONE
+        buttonMap.visibility = View.GONE
+        layoutCartSummary.visibility = View.GONE
     }
 
     private fun showCatalogView() {
@@ -423,11 +452,22 @@ class MainActivity : ComponentActivity() {
         })
     }
 
-    private fun addMarker(mapView: MapView, lat: Double, lon: Double, title: String) {
-        val marker = Marker(mapView)
-        marker.position = GeoPoint(lat, lon)
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-        marker.title = title
-        mapView.overlays.add(marker)
+    private fun fetchLogin(username: String, password: String) {
+        apiService.login(username, password).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("Login", "Login successful")
+                    layoutLogin.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    showCatalogView()
+                } else {
+                    Log.e("Login", "Invalid credentials")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.e("Login", "Error: ${t.message}")
+            }
+        })
     }
 }
