@@ -209,6 +209,14 @@
             android:textColor="@color/white" />
 
         <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_logout"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+        <Button
             android:id="@+id/buttonAddProduct"
             android:layout_width="48dp"
             android:layout_height="48dp"

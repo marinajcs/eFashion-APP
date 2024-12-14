@@ -37,11 +37,12 @@ import java.io.InputStream
 import java.io.OutputStream
 
 class MainActivity : ComponentActivity() {
-    // Login
+    // Login y logout
     private lateinit var layoutLogin: LinearLayout
     private lateinit var editTextUsername: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var buttonLogin: Button
+    private lateinit var buttonLogout: Button
 
     // Adaptadores
     private lateinit var productAdapter: ProductAdapter
@@ -85,11 +86,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Login
+        // Login y logout
         layoutLogin = findViewById(R.id.layoutLogin)
         editTextUsername = findViewById(R.id.editTextUsername)
         editTextPassword = findViewById(R.id.editTextPassword)
         buttonLogin = findViewById(R.id.buttonLogin)
+        buttonLogout = findViewById(R.id.buttonLogout)
 
         // Menú inferior
         layoutButtons =findViewById(R.id.layoutButtons)
@@ -130,14 +132,7 @@ class MainActivity : ComponentActivity() {
             showEditProductView(product)
         }
 
-        // Inicializar con la vista del catálogo
-        fetchProducts()
-
-        // Mostrar vista de login al inicio
-        layoutLogin.visibility = View.VISIBLE
-        recyclerView.visibility = View.GONE
-        headerTitle.text = "Login"
-        layoutButtons.visibility = View.GONE
+        showLogin()
 
         buttonLogin.setOnClickListener {
             val username = editTextUsername.text.toString()
@@ -148,6 +143,11 @@ class MainActivity : ComponentActivity() {
             } else {
                 Log.e("Login", "Username or password cannot be empty")
             }
+        }
+
+        buttonLogout.setOnClickListener {
+            fetchLogout()
+            showLogin()
         }
 
         // Funcionalidad del menú inferior
@@ -239,6 +239,13 @@ class MainActivity : ComponentActivity() {
                 Log.e("AddProduct", "Error: ${t.message}")
             }
         })
+    }
+
+    private fun showLogin() {
+        headerTitle.text = "Login"
+        layoutLogin.visibility = View.VISIBLE
+        layoutButtons.visibility = View.GONE
+        layoutCartSummary.visibility = View.GONE
     }
 
     private fun showAddProductView() {
@@ -468,6 +475,25 @@ class MainActivity : ComponentActivity() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.e("Login", "Error: ${t.message}")
+            }
+        })
+    }
+
+    private fun fetchLogout() {
+        apiService.logout().enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Log.d("Logout", "Logout successful")
+
+                    layoutLogin.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                } else {
+                    Log.e("Logout", "Logout failed: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("Logout", "Error: ${t.message}")
             }
         })
     }

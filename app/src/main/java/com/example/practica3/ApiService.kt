@@ -17,6 +17,9 @@ interface ApiService {
         @Field("password") password: String
     ): Call<ResponseBody>
 
+    @POST("api/auth/logout")
+    fun logout(): Call<Void>
+
     @Headers("Content-Type: application/json")
     @GET("api/products")
     fun getAllProducts(): Call<List<Product>>
