@@ -10,6 +10,16 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
+    @FormUrlEncoded
+    @POST("api/auth/login")
+    fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): Call<LoginResponse>
+
+    @POST("api/auth/logout")
+    fun logout(): Call<Void>
+
     @Headers("Content-Type: application/json")
     @GET("api/products")
     fun getAllProducts(): Call<List<Product>>
@@ -22,6 +32,7 @@ interface ApiService {
     @POST("api/cart/add")
     fun addCartProduct(
         @Query("productId") productId: Long
+
     ): Call<Void>
 
     // Eliminar un producto del carrito

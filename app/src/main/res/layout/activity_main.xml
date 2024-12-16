@@ -20,6 +20,35 @@
         android:gravity="center"
         android:padding="16dp" />
 
+    <LinearLayout
+        android:id="@+id/layoutLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login" />
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollContainer"
         android:layout_width="match_parent"
@@ -65,6 +94,16 @@
                     android:backgroundTint="@color/primary"
                     android:textColor="@color/white" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonAddProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add product"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -149,43 +188,43 @@
         <!-- Botones comunes -->
         <Button
             android:id="@+id/buttonCatalog"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Catalog"
-            android:layout_marginEnd="4dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_catalog"
             android:backgroundTint="@color/primary"
             android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonCart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cart"
-            android:layout_marginEnd="4dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_cart"
             android:backgroundTint="@color/primary"
             android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonAdmin"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Admin"
-            android:layout_marginEnd="4dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_admin"
             android:backgroundTint="@color/primary"
             android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/buttonAddProduct"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:text="+"
-            android:textColor="@color/white"
-            android:background="@drawable/round_button_background"
-            android:textSize="26sp"
-            android:gravity="center" />
+            android:id="@+id/buttonMap"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_map"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:drawableTop="@drawable/ic_logout"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
 
         <!-- Botones retroceso -->
         <Button
