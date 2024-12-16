@@ -94,6 +94,16 @@
                     android:backgroundTint="@color/primary"
                     android:textColor="@color/white" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonAddProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add product"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -215,16 +225,6 @@
             android:drawableTop="@drawable/ic_logout"
             android:backgroundTint="@color/primary"
             android:textColor="@color/white" />
-
-        <Button
-            android:id="@+id/buttonAddProduct"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:text="+"
-            android:textColor="@color/white"
-            android:background="@drawable/round_button_background"
-            android:textSize="26sp"
-            android:gravity="center" />
 
         <!-- Botones retroceso -->
         <Button

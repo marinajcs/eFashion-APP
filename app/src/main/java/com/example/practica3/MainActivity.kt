@@ -169,6 +169,7 @@ class MainActivity : ComponentActivity() {
         buttonMap.setOnClickListener {
             recyclerView.adapter = MapAdapter(this)
             headerTitle.text = "Map"
+            buttonAddProduct.visibility = View.GONE
         }
 
         // Añadir productos
@@ -246,6 +247,7 @@ class MainActivity : ComponentActivity() {
         layoutLogin.visibility = View.VISIBLE
         layoutButtons.visibility = View.GONE
         layoutCartSummary.visibility = View.GONE
+        buttonAddProduct.visibility = View.GONE
     }
 
     private fun showAddProductView() {
@@ -263,11 +265,12 @@ class MainActivity : ComponentActivity() {
 
     private fun showCatalogView() {
         headerTitle.text = "Catalog"
+        layoutCartSummary.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
         layoutButtons.visibility = View.VISIBLE
+        buttonAddProduct.visibility = View.GONE
         layoutAddProduct.visibility = View.GONE
         buttonBackCatalog.visibility = View.GONE
-        fetchProducts()
     }
 
     // Funciones del editado de productos
@@ -309,16 +312,26 @@ class MainActivity : ComponentActivity() {
 
     private fun showAdminView() {
         headerTitle.text = "Admin"
+        buttonAddProduct.visibility = View.VISIBLE
         recyclerView.visibility = View.VISIBLE
         buttonCart.visibility = View.VISIBLE
-        buttonAddProduct.visibility = View.VISIBLE
         buttonCatalog.visibility = View.VISIBLE
         buttonAdmin.visibility = View.VISIBLE
         layoutEditProduct.visibility = View.GONE
         buttonSaveEdit.visibility = View.GONE
         buttonCancelEdit.visibility = View.GONE
         layoutCartSummary.visibility = View.GONE
-        fetchAdmin()
+    }
+
+    private fun checkUserRoleAndSetView() {
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        val userRole = sharedPreferences.getString("userRole", "USER")
+
+        if (userRole == "ROLE_admin") {
+            buttonAdmin.visibility = View.VISIBLE
+        } else {
+            buttonAdmin.visibility = View.GONE
+        }
     }
 
     // Funciones de la realización de la compra
@@ -402,7 +415,7 @@ class MainActivity : ComponentActivity() {
                     productList?.let {
                         productAdapter = ProductAdapter(it, apiService)
                         recyclerView.adapter = productAdapter
-                        layoutCartSummary.visibility = View.GONE
+                        showCatalogView()
                     }
                 } else {
                     Log.e("API_ERROR", "Error code: ${response.code()}")
@@ -425,6 +438,7 @@ class MainActivity : ComponentActivity() {
                         cartAdapter = CartAdapter(productList, apiService)
                         recyclerView.adapter = cartAdapter
                         getTotalPrice()
+                        buttonAddProduct.visibility = View.GONE
                     }
                 } else {
                     Log.e("API_ERROR", "Error code: ${response.code()}")
@@ -447,7 +461,7 @@ class MainActivity : ComponentActivity() {
                             showEditProductView(product)
                         }
                         recyclerView.adapter = adminAdapter
-                        layoutCartSummary.visibility = View.GONE
+                        showAdminView()
                     }
                 } else {
                     Log.e("API_ERROR", "Error code: ${response.code()}")
@@ -461,19 +475,29 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun fetchLogin(username: String, password: String) {
-        apiService.login(username, password).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+        apiService.login(username, password).enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("Login", "Login successful")
-                    layoutLogin.visibility = View.GONE
-                    recyclerView.visibility = View.GONE
-                    showCatalogView()
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        Log.d("Login", "Login successful: ${loginResponse.message}")
+                        val userRole = loginResponse.role
+
+                        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+                        sharedPreferences.edit().putString("userRole", userRole).apply()
+
+                        layoutLogin.visibility = View.GONE
+                        recyclerView.visibility = View.GONE
+
+                        checkUserRoleAndSetView()
+                        fetchProducts()
+                    }
                 } else {
                     Log.e("Login", "Invalid credentials")
                 }
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("Login", "Error: ${t.message}")
             }
         })

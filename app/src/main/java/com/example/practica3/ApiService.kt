@@ -15,7 +15,7 @@ interface ApiService {
     fun login(
         @Field("username") username: String,
         @Field("password") password: String
-    ): Call<ResponseBody>
+    ): Call<LoginResponse>
 
     @POST("api/auth/logout")
     fun logout(): Call<Void>
