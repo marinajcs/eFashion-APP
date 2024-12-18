@@ -380,7 +380,7 @@ class MainActivity : ComponentActivity() {
                                 .create()
                             successDialog.show()
 
-                            showCatalogView()
+                            fetchProducts()
                         } catch (e: IOException) {
                             Log.e("Checkout", "Error saving invoice: ${e.message}")
                         }

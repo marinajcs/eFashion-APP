@@ -14,9 +14,9 @@ class MapAdapter(private val context: Context) :
     RecyclerView.Adapter<MapAdapter.MapViewHolder>() {
 
     private val locations = listOf(
-        Pair(GeoPoint(36.7213, -4.4214), "FilmShop Málaga"),
-        Pair(GeoPoint(37.1765, -3.5979), "FilmShop Granada"),
-        Pair(GeoPoint(37.9922, -1.1307), "FilmShop Murcia")
+        Pair(GeoPoint(36.7213, -4.4214), "Almacén Málaga"),
+        Pair(GeoPoint(37.1765, -3.5979), "Almacén Granada"),
+        Pair(GeoPoint(37.9922, -1.1307), "Almacén Murcia")
     )
 
     init {
