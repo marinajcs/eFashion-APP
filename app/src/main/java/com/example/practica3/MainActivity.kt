@@ -170,6 +170,7 @@ class MainActivity : ComponentActivity() {
             recyclerView.adapter = MapAdapter(this)
             headerTitle.text = "Map"
             buttonAddProduct.visibility = View.GONE
+            layoutCartSummary.visibility = View.GONE
         }
 
         // Añadir productos
@@ -230,7 +231,7 @@ class MainActivity : ComponentActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("AddProduct", "Product added successfully")
-                    showCatalogView()
+                    fetchProducts()
                 } else {
                     Log.e("AddProduct", "Error adding product: ${response.code()}")
                 }
@@ -260,6 +261,7 @@ class MainActivity : ComponentActivity() {
         buttonCatalog.visibility = View.GONE
         buttonAdmin.visibility = View.GONE
         buttonMap.visibility = View.GONE
+        buttonLogout.visibility = View.GONE
         layoutCartSummary.visibility = View.GONE
     }
 
@@ -267,10 +269,15 @@ class MainActivity : ComponentActivity() {
         headerTitle.text = "Catalog"
         layoutCartSummary.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
-        layoutButtons.visibility = View.VISIBLE
         buttonAddProduct.visibility = View.GONE
         layoutAddProduct.visibility = View.GONE
+        layoutButtons.visibility = View.VISIBLE
         buttonBackCatalog.visibility = View.GONE
+        buttonCatalog.visibility = View.VISIBLE
+        buttonCart.visibility = View.VISIBLE
+        buttonAdmin.visibility = View.VISIBLE
+        buttonMap.visibility = View.VISIBLE
+        buttonLogout.visibility = View.VISIBLE
     }
 
     // Funciones del editado de productos
@@ -281,7 +288,7 @@ class MainActivity : ComponentActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d("EditProduct", "Product edited successfully")
-                    showAdminView()
+                    fetchAdmin()
                 } else {
                     Log.e("EditProduct", "Error editing product: ${response.code()}")
                 }
@@ -307,6 +314,8 @@ class MainActivity : ComponentActivity() {
         buttonAddProduct.visibility = View.GONE
         buttonCatalog.visibility = View.GONE
         buttonAdmin.visibility = View.GONE
+        buttonLogout.visibility = View.GONE
+        buttonMap.visibility = View.GONE
         layoutCartSummary.visibility = View.GONE
     }
 
@@ -317,6 +326,8 @@ class MainActivity : ComponentActivity() {
         buttonCart.visibility = View.VISIBLE
         buttonCatalog.visibility = View.VISIBLE
         buttonAdmin.visibility = View.VISIBLE
+        buttonMap.visibility = View.VISIBLE
+        buttonLogout.visibility = View.VISIBLE
         layoutEditProduct.visibility = View.GONE
         buttonSaveEdit.visibility = View.GONE
         buttonCancelEdit.visibility = View.GONE
