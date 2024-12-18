@@ -54,9 +54,9 @@ interés relacionados con el catálogo o carrito.
 Los ficheros más importantes son el `AndroidManifest.xml`, el `MainActivity.kt`, las clases adaptadores
 y los layout para las vistas.
 
-[Estructura principal con la carpeta `res` desplegada](./imgs/estructura2.JPG)
+![Estructura principal con la carpeta `res` desplegada](./imgs/estructura1.JPG)
 
-[Estructura del directorio de código](./imgs/estructura1.JPG)
+![Estructura del directorio de código](./imgs/estructura2.JPG)
 
 ## 4. Lista de endpoints API utilizados y su descripción
 
