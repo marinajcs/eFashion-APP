@@ -1,4 +1,4 @@
-package com.example.practica3
+package com.example.practica3.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
+import com.example.practica3.api.ApiService
+import com.example.practica3.models.Product
+import com.example.practica3.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

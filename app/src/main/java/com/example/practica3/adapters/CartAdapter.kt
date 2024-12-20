@@ -1,4 +1,4 @@
-package com.example.practica3
+package com.example.practica3.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tuapp.utils.transformApiResponse
+import com.example.practica3.api.ApiService
+import com.example.practica3.models.CartProduct
+import com.example.practica3.R
+import com.example.practica3.api.transformApiResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

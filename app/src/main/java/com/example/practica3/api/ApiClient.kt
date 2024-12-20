@@ -1,4 +1,4 @@
-package com.example.practica3
+package com.example.practica3.api
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

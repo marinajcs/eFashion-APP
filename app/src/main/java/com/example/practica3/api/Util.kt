@@ -1,8 +1,7 @@
-package com.example.tuapp.utils
+package com.example.practica3.api
 
-import com.example.practica3.CartProduct
-import com.example.practica3.Product
-import org.json.JSONArray
+import com.example.practica3.models.CartProduct
+import com.example.practica3.models.Product
 import org.json.JSONObject
 
 fun transformApiResponse(rawJson: String): List<CartProduct> {
