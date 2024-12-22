@@ -60,7 +60,7 @@ y los layout para las vistas.
 
 ### 3.2. Estructura con la carpeta `res` desplegada
 
-![Estructura res](./imgs/estructura-res.JPG.JPG)
+![Estructura res](./imgs/estructura-res.JPG)
 
 ## 4. Lista de endpoints API utilizados y su descripción
 
