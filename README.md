@@ -12,10 +12,11 @@ basado en la app web RESTful de la práctica 1.
 
 ## 1. Instrucciones de instalación y ejecución de la app
 
-Para ejecutar la aplicación Android, se usará un emulador en Android Studio. Para ello, primero
-se abre el AVD Manager y se configura un emulador (se ha usado en el desarrollo un Galaxy Nexus
-con API 33) si no se tiene ya creado. Después, se inicia el emulador, y se ejecuta la aplicación
-haciendo click el botón Run 'MainActivity' (Mayús+F10), que la compilará y ejecutará.
+Para ejecutar la aplicación Android (carpeta `/app`), se usará un emulador en Android Studio.
+Para ello, primero se abre el gestor de dispositivos y se configura un emulador (se ha usado en
+el desarrollo un Galaxy Nexus con API 33) si no se tiene ya creado. Después, se inicia el emulador,
+y se ejecuta la aplicación, haciendo click el botón Run 'MainActivity' (Mayús+F10), que la compilará
+y ejecutará.
 
 Esto permitirá instalar la app en el emulador, y hacer que se abra directamente, permitiendo
 interactuar con ella y realizar pruebas en el entorno simulado.
@@ -97,5 +98,6 @@ de la app concreta:
 
 5. `GET /api/products/databaseExport`: exporta la base de datos a un archivo SQL descargable.
 
-Para más información, así como capturas de la app, se puede consultar tanto el manual de usuario
-como el documento de pruebas.
+## Documentación adicional
+
+En la carpeta `/docs` se encuentra la documentación técnica, el manual de usuario y las pruebas realizadas.
