@@ -54,16 +54,20 @@ interés relacionados con el catálogo o carrito.
 Los ficheros más importantes son el `AndroidManifest.xml`, el `MainActivity.kt`, las clases adaptadores
 y los layout para las vistas.
 
-![Estructura principal con la carpeta `res` desplegada](./imgs/estructura1.JPG)
+### 3.1. Estructura principal de paquetes y código
 
-![Estructura del directorio de código](./imgs/estructura2.JPG)
+![Estructura code](./imgs/estructura-code.JPG)
+
+### 3.2. Estructura con la carpeta `res` desplegada
+
+![Estructura res](./imgs/estructura-res.JPG.JPG)
 
 ## 4. Lista de endpoints API utilizados y su descripción
 
 Se han declarado los endpoints en tres Rest Controllers distintos, cada uno asociado a una funcionalidad
 de la app concreta:
 
-### CartRestController (Gestión del carrito)
+### 4.1. CartRestController (Gestión del carrito)
 
 1. `GET /api/cart`: devuelve todos los productos en el carrito del usuario autenticado con sus respectivas cantidades.
 
@@ -75,13 +79,13 @@ de la app concreta:
 
 5. `GET /api/cart/bill`: genera y descarga una factura PDF de los productos del carrito del usuario autenticado, y limpia el carrito.
 
-### LoginRestController (Autenticación y sesión)
+### 4.2. LoginRestController (Autenticación y sesión)
 
 1. `POST /api/auth/login`: permite al usuario iniciar sesión proporcionando username y password. Devuelve un mensaje y el rol del usuario en caso de éxito, o un error en caso de credenciales inválidas.
 
 2. `POST /api/auth/logout`: cierra la sesión del usuario, limpia el contexto de seguridad y finaliza la sesión HTTP.
 
-### ProductRestController (Gestión de productos)
+### 4.3. ProductRestController (Gestión de productos)
 
 1. `GET /api/products`: devuelve una lista de todos los productos disponibles.
 
