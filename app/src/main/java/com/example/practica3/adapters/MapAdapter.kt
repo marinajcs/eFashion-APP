@@ -22,7 +22,9 @@ class MapAdapter(private val context: Context) :
     private val locations = listOf(
         Pair(GeoPoint(36.7213, -4.4214), "Almacén Málaga"),
         Pair(GeoPoint(37.1765, -3.5979), "Almacén Granada"),
-        Pair(GeoPoint(37.9922, -1.1307), "Almacén Murcia")
+        Pair(GeoPoint(37.9922, -1.1307), "Almacén Murcia"),
+        Pair(GeoPoint(37.3861, -122.0839), "Almacén Mountain View"),
+        Pair(GeoPoint(40.7128, -74.0060), "Almacén Nueva York")
     )
 
     init {
