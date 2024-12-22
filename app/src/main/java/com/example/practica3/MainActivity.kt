@@ -269,9 +269,9 @@ class MainActivity : ComponentActivity() {
         buttonBackCatalog.visibility = View.GONE
         buttonCatalog.visibility = View.VISIBLE
         buttonCart.visibility = View.VISIBLE
-        buttonAdmin.visibility = View.VISIBLE
         buttonMap.visibility = View.VISIBLE
         buttonLogout.visibility = View.VISIBLE
+        checkUserRoleAndSetView()
     }
 
     // Funciones del editado de productos
@@ -332,7 +332,7 @@ class MainActivity : ComponentActivity() {
         val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
         val userRole = sharedPreferences.getString("userRole", "USER")
 
-        if (userRole == "ROLE_admin") {
+        if (userRole == "ROLE_admin" || userRole == "ROLE_ADMIN") {
             buttonAdmin.visibility = View.VISIBLE
         } else {
             buttonAdmin.visibility = View.GONE
